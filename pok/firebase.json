@@ -1,0 +1,17 @@
+{
+  "hosting": {
+	"site":"kt1-2024-2025-bill",
+    "public": "kt1",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
