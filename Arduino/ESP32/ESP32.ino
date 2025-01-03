@@ -1,27 +1,50 @@
 #include <WiFi.h>
 #include <FirebaseESP32.h>
+#include <ArduinoJson.h>
 
-// Replace these with your network credentials
-const char* ssid = "your_SSID";
-const char* password = "your_PASSWORD";
+const char* ssid = "wifiwifi";
+const char* password = "matkhaula";
 
 // Replace these with your Firebase credentials
-#define FIREBASE_HOST "https://kt1--25-default-rtdb.firebaseio.com"
-#define FIREBASE_AUTH "your_database_secret"
-
-FirebaseData firebaseData;
-
+#define DATABASE_URL "kt1--25-default-rtdb.firebaseio.com";
+#define FIREBASE_AUTH "a7ad375ed8ab716c79056513b10bc739f43e1bd0";
+FirebaseData fb;
+int a1,a2,a3,a4;
 void setup() {
-  Serial.begin(115200);
-
-  // Connect to Wi-Fi
+  Serial.begin(9600);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
   }
-  Serial.println("Connected to WiFi");
 
   // Connect to Firebase
-  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  Firebase.reconnectWiFi(true
+  Firebase.begin(DATABASE_URL, FIREBASE_AUTH);
+  Firebase.reconnectWiFi(true);
+}
+void readCommand(){
+  downloadData();
+  delay(2000);
+}
+
+void downloadData(){
+     if (Firebase.getInt(fb,"/gia/giacarot"))
+        a1 = fb.intData();
+    
+    if (Firebase.getInt(fb,"/gia/giakhoaitay"))
+        a2 = fb.intData();
+  
+        if (Firebase.getInt(fb,"/gia/giabi"))
+        a3 = fb.intData();
+
+    if (Firebase.getInt(fb,"/gia/bapcai"))
+        a4 = fb.intData();
+    Serial.println(a1);
+    Serial.println(a2);
+    Serial.println(a3);
+    Serial.println(a4);
+}
+
+void loop()
+{
+    readCommand();
+}

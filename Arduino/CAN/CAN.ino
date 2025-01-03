@@ -5,7 +5,7 @@
 #include <Keypad.h>
 #include <Arduino.h>
 //#include<bits/stdc++.h>
-
+#define ok "dong"
 //Khai bao can //
 HX711_ADC can1(7,6);//dt,sck
 HX711_ADC can2(9,8);
