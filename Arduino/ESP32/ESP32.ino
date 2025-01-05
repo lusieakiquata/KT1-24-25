@@ -6,8 +6,8 @@ const char* ssid = "wifiwifi";
 const char* password = "matkhaula";
 
 // Replace these with your Firebase credentials
-#define DATABASE_URL "kt1--25-default-rtdb.firebaseio.com";
-#define FIREBASE_AUTH "a7ad375ed8ab716c79056513b10bc739f43e1bd0";
+#define DATABASE_URL "https://kt1--25-default-rtdb.firebaseio.com/"
+#define FIREBASE_AUTH "AIzaSyCguAoNfRl4DCl7crkcvVR2qeiPUg1sXKg"
 FirebaseData fb;
 int a1,a2,a3,a4;
 void setup() {

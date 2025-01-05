@@ -4,8 +4,10 @@
 #include <HX711_ADC.h>
 #include <Keypad.h>
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 //#include<bits/stdc++.h>
 #define ok "dong"
+SoftwareSerial ESPserial(16, 17); // RX, TX
 //Khai bao can //
 HX711_ADC can1(7,6);//dt,sck
 HX711_ADC can2(9,8);
@@ -59,7 +61,8 @@ Keypad phim5 = Keypad(makeKeymap(keyys), phim5r, phim5c, 4, 1);
 
 String xemten(char x); 
 void setup() {
-  Serial.begin(9600);
+ // Serial.begin(9600);
+  ESPserial.begin(9600);
   //khoi dong can//
   can1.begin();can2.begin();can3.begin();can4.begin();can5.begin();
   can1.setCalFactor(182);can2.setCalFactor(180);can3.setCalFactor(180);can4.setCalFactor(180);can5.setCalFactor(180);
@@ -69,20 +72,24 @@ void setup() {
   //setCursor(0, 0);
 }
 
-
+int gia[5]={0,0,0,0,0};
 
 void loop() {
+   
   bool ktkey1=false,ktkey2=false,ktkey3=false,ktkey4,ktkey5,buoc1=false,buoc2=false;
   char hienthi1[12]="",hienthi2[12]="",hienthi3[12]="",hienthi4[12]="",hienthi5[12]="";
   int kl1=0,kl2=0,kl3=0,kl4=0,kl5=0;
   int ktkl1,ktkl2,ktkl3,ktkl4,ktkl5;
   int d1=0,d2=0,d3=0,d4=0,d5=0;
-  int xh[6],gia[5]={5,6,7,8,9};
+  int xh[6];
   int kll[6];
   for(int i=0;i<5;i++) {xh[i]=0;kll[i]=0;}
   const String rt="            ";
   String keystring="";
 while(1!=2){
+
+
+  
 //reset moi lan?//
 
   //cap nhap can//
@@ -204,8 +211,59 @@ if(buoc2==false){
 
  }
  else  {
+
+  char key4x4= phim4x4.getKey();
+
+      if( key4x4 == 'C' ){
+        //Serial.println("dong");
+        
+        int mon=1;
+        String xaugia="";
+      while(mon != 5){
+        lcd.clear();
+        String s=""; char nhan = "";
+        while(nhan !='#'){
+        
+          if (mon==1)
+        lcd.print("gia carot: ");
+
+        if (mon==2)
+        lcd.print("gia khoai tay: ");
+
+        if (mon==3)
+        lcd.print("gia bi: ");
+
+        if (mon==4)
+        
+        lcd.print("gia bap cai: ");
+         lcd.setCursor(0, 1);
+         
+        lcd.print(s);
+        nhan = phim4x4.waitForKey() ;
+        if (nhan !='D' && nhan !='A' && nhan!='B' && nhan!='*'){
+        if (nhan=='C')
+            s.remove(s.length()-1);
+        else 
+        if(nhan!='#')
+          s=s+nhan;
+        }
+        lcd.clear();
+        }
+
+        int num = s.toInt();
+            gia[mon]=num;
+        mon++;
+            xaugia=xaugia +s+" ";
+        }
+
+        ESPserial.println("g"+xaugia);
+        // Serial.println("g"+xaugia); 
+        
+
+       // key4x4 = phim4x4.waitForKey() ;
+      }
   lcd.print("Start D :");
- char key4x4=phim4x4.getKey();
+    //key4x4=phim4x4.getKey();
  if(key4x4=='D') buoc1=true;
  }
 }
