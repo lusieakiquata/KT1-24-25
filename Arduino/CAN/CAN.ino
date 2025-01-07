@@ -4,17 +4,15 @@
 #include <HX711_ADC.h>
 #include <Keypad.h>
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 //#include<bits/stdc++.h>
 #define ok "dong"
-SoftwareSerial ESPserial(16, 17); // RX, TX
 //Khai bao can //
 HX711_ADC can1(7,6);//dt,sck
 HX711_ADC can2(9,8);
 HX711_ADC can3(11,10);
 HX711_ADC can4(13,12);
 HX711_ADC can5(15,14);
-
+String sgui;
 //khai bao lcd 128x64//
 U8GLIB_ST7920_128X64 u8g(5, 4, 3,2); // Chân RS=13, E=11, PSB (CS)=1, RST
 
@@ -58,21 +56,41 @@ Keypad phim4 = Keypad(makeKeymap(keyys), phim4r, phim4c, 4, 1);
 byte phim5r[4] = {43, 42, 45, 44}; 
 byte phim5c[1] = {46}; 
 Keypad phim5 = Keypad(makeKeymap(keyys), phim5r, phim5c, 4, 1);
-
+String st="";
 String xemten(char x); 
+int gia[5]={0,0,0,0,0};
 void setup() {
- // Serial.begin(9600);
-  ESPserial.begin(9600);
+ Serial.begin(9600);
   //khoi dong can//
   can1.begin();can2.begin();can3.begin();can4.begin();can5.begin();
   can1.setCalFactor(182);can2.setCalFactor(180);can3.setCalFactor(180);can4.setCalFactor(180);can5.setCalFactor(180);
   can1.tare();can2.tare();can3.tare();can4.tare();can5.tare();
   lcd.init();
  lcd.backlight();
-  //setCursor(0, 0);
+
+    Serial.println("d");
+    lcd.print("dang cap nhap gia..");//
+    delay(3000);
+    lcd.clear();
+    String so="";
+         st = Serial.readString(); 
+         Serial.println(st);
+        int p=0;
+         for(int i=0;i<st.length();i++){
+            
+            if(st[i]==' '){
+              p++;
+              gia[p]=so.toInt();
+
+              //Serial.println(gia[p]);
+              so="";
+            }
+            else so = so + String(st[i]);
+        }
+  
 }
 
-int gia[5]={0,0,0,0,0};
+
 
 void loop() {
    
@@ -253,11 +271,11 @@ if(buoc2==false){
         int num = s.toInt();
             gia[mon]=num;
         mon++;
+            if (s=="") s="0";
             xaugia=xaugia +s+" ";
         }
 
-        ESPserial.println("g"+xaugia);
-        // Serial.println("g"+xaugia); 
+         Serial.println("g"+xaugia); 
         
 
        // key4x4 = phim4x4.waitForKey() ;
@@ -270,7 +288,7 @@ if(buoc2==false){
 else{
   char showdonkl1[20]="",showdonkl2[20]="",showdonkl3[20]="",showdonkl4[20]="";
   char tien1[20]="",tien2[20]="",tien3[20]="",tien4[20]="";
-    int tonghoadon[6][5];
+    int tonghoadon[9][5];
     for(int i=1;i<=6;i++){
       for(int j=1;j<=5;j++){
         tonghoadon[i][j]=0;
@@ -282,8 +300,15 @@ else{
       dem++;
         tonghoadon[dem][xh[keystring[i]-48]]=0;
         tonghoadon[dem][xh[keystring[i]-48]]=kll[keystring[i]-48];
-        Serial.println(tonghoadon[dem][xh[keystring[i]-48]]);
+        //Serial.println(tonghoadon[dem][xh[keystring[i]-48]]);
     }
+    sgui="u";
+     for(int i=1;i<=5;i++){
+      for(int j=1;j<=4;j++){
+        sgui=sgui+String(tonghoadon[i][j])+" ";
+      }
+    }
+    Serial.println(sgui);
     for(int i=1;i<=dem;i++) {
       
   
@@ -305,20 +330,20 @@ else{
         
          const char* unit = "k";const char* unit1 = "g"; 
          float nguyen,du=tonghoadon[i][1];
-         nguyen = du/1000; sprintf(tien1, "%d", ((gia[1]*tonghoadon[i][1])/100)*100);
+         nguyen = du/1000; sprintf(tien1, "%d", ((gia[1]*tonghoadon[i][1])/1000));
        dtostrf(nguyen, 3, 2, showdonkl1);strcat(showdonkl1, unit);strcat(showdonkl1, unit1);
 
           du=tonghoadon[i][2];
-         nguyen = du/1000;sprintf(tien2, "%d", ((gia[2]*tonghoadon[i][2])/100)*100);
+         nguyen = du/1000;sprintf(tien2, "%d", ((gia[2]*tonghoadon[i][2])/1000));
        dtostrf(nguyen, 3, 2, showdonkl2);strcat(showdonkl2, unit);strcat(showdonkl2, unit1);
        du=tonghoadon[i][3];
-         nguyen = du/1000;sprintf(tien3, "%d", ((gia[3]*tonghoadon[i][3])/100)*100);
+         nguyen = du/1000;sprintf(tien3, "%d", ((gia[3]*tonghoadon[i][3])/1000));
        dtostrf(nguyen, 3, 2, showdonkl3);strcat(showdonkl3, unit);strcat(showdonkl3, unit1);
      du=tonghoadon[i][4];
-         nguyen = du/1000;sprintf(tien4, "%d", ((gia[4]*tonghoadon[i][4])/100)*100);
+         nguyen = du/1000;sprintf(tien4, "%d", ((gia[4]*tonghoadon[i][4])/1000));
        dtostrf(nguyen, 3, 2, showdonkl4);strcat(showdonkl4, unit);strcat(showdonkl4, unit1);
         char tongtien[20]="";
-        sprintf(tongtien, "%d", ((gia[1]*tonghoadon[i][1])/100)*100 + ((gia[2]*tonghoadon[i][2])/100)*100 + ((gia[3]*tonghoadon[i][3])/100)*100 + ((gia[4]*tonghoadon[i][4])/100)*100);
+        sprintf(tongtien, "%d", ((gia[1]*tonghoadon[i][1])/1000) + ((gia[2]*tonghoadon[i][2])/1000) + ((gia[3]*tonghoadon[i][3])/1000) + ((gia[4]*tonghoadon[i][4])/1000));
         u8g.drawStr(0, 8, hoadon);
               u8g.drawStr(0, 19, "Carot    ");    u8g.drawStr(51,19 ,showdonkl1);  u8g.drawStr(90,19 ,tien1); 
               u8g.drawStr(0, 30, "Khoaitay"); u8g.drawStr(51, 30,showdonkl2);  u8g.drawStr(90,30 ,tien2); 
