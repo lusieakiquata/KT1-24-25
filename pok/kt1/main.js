@@ -1,11 +1,5 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
   apiKey: "AIzaSyCguAoNfRl4DCl7crkcvVR2qeiPUg1sXKg",
   authDomain: "kt1--25.firebaseapp.com",
@@ -18,12 +12,48 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const database = firebase.database();
+firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-function reset() {
-  database.ref('hoadon1').set({
-    bapcai: 0
-  });
-}
+
+
+  /*database.ref('gia/giabapcai').on('value', (snapshot) => {
+    const gia = snapshot.val();
+    document.getElementById('hoadon1').cows[1].cells[2].innerText = gia || 'Không có dữ liệu';
+  });}*/
+  //gia cap nhap//
+  database.ref('gia/giacarot').on('value', (snapshot) => {
+      const gia = snapshot.val();
+      document.getElementById('hoadon1').rows[1].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon2').rows[1].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon3').rows[1].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon4').rows[1].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon5').rows[1].cells[2].innerText = gia || '0';
+    });
+    database.ref('gia/giakhoaitay').on('value', (snapshot) => {
+      const gia = snapshot.val();
+      document.getElementById('hoadon1').rows[2].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon2').rows[2].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon3').rows[2].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon4').rows[2].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon5').rows[2].cells[2].innerText = gia || '0';
+    });
+    database.ref('gia/giabi').on('value', (snapshot) => {
+      const gia = snapshot.val();
+      document.getElementById('hoadon1').rows[3].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon2').rows[3].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon3').rows[3].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon4').rows[3].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon5').rows[3].cells[2].innerText = gia || '0';
+    });
+    database.ref('gia/giabapcai').on('value', (snapshot) => {
+      const gia = snapshot.val();
+      document.getElementById('hoadon1').rows[4].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon2').rows[4].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon3').rows[4].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon4').rows[4].cells[2].innerText = gia || '0';
+      document.getElementById('hoadon5').rows[4].cells[2].innerText = gia || '0';
+    });
+ // document.getElementById('hoadon1').rows[1].cells[2].innerText = '3';
+
+

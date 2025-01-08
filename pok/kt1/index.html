@@ -6,7 +6,11 @@
     <title>"WAINV"</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src = "main.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src = "main.js">
+	
+	</script>
 </head>
 <body>
 
@@ -27,7 +31,7 @@
         <div class="info">
             <p><strong>ngày:</strong> 10/12/2024</p>
         </div>
-        <table class="table">
+        <table class="table" id="hoadon1">
             <thead>
                 <tr>
                     <th>vật phẩm</th>
@@ -40,25 +44,25 @@
                 <tr>
                     <td>carot</td>
                     <td>2</td>
-                    <td>20000</td>
+                    <td>0</td>
                     <td>40000</td>
                 </tr>
                 <tr>
                     <td>khoai tay </td>
                     <td>1</td>
-                    <td>25000</td>
+                    <td>0</td>
                     <td>25000</td>
                 </tr>
 				 <tr>
                     <td>bi</td>
                     <td>2</td>
-                    <td>17000</td>
+                    <td>0</td>
                     <td>34000</td>
                 </tr>
 				 <tr>
                     <td>bap cai</td>
                     <td>2</td>
-                    <td>25000</td>
+                    <td>0</td>
                     <td>50000</td>
                 </tr>
             </tbody>
@@ -80,7 +84,7 @@
         <div class="info">
             <p><strong>ngày:</strong> </p>
         </div>
-        <table class="table">
+        <table class="table" id="hoadon2">
             <thead>
                 <tr>
                     <th>vật phẩm</th>
@@ -130,7 +134,7 @@
         <div class="info">
             <p><strong>ngày:</strong> </p>
         </div>
-        <table class="table">
+        <table class="table" id="hoadon3">
             <thead>
                <tr>
                     <th>vật phẩm</th>
@@ -180,7 +184,7 @@
         <div class="info">
             <p><strong>ngày:</strong> </p>
         </div>
-        <table class="table">
+        <table class="table" id="hoadon4">
             <thead>
                <tr>
                     <th>vật phẩm</th>
@@ -230,7 +234,7 @@
         <div class="info">
             <p><strong>ngày:</strong> </p>
         </div>
-        <table class="table">
+        <table class="table" id="hoadon5">
             <thead>
                <tr>
                     <th>vật phẩm</th>
@@ -272,8 +276,5 @@
     </div>
 </div>	
 
-<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js"></script>
- <script src="./js/leaderboard.js" type="module"></script>
 </body>
 </html>
