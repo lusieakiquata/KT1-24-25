@@ -99,6 +99,8 @@ float upkl[21]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
             else so = so + String(st[i]);
         }
 Serial.println(st);
+Firebase.RTDB.setInt(&fbdo, "/RST", 1); 
+delay(1000);
 // hoa don1//
 Firebase.RTDB.setInt(&fbdo, "/hoadon1/kl/carot", upkl[1]/1000); 
 Firebase.RTDB.setInt(&fbdo, "/hoadon1/kl/khoaitay", upkl[2]/1000); 
