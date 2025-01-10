@@ -5,6 +5,24 @@ body {
     font-family: 'Roboto', sans-serif; /* Sử dụng phông chữ Google Fonts */
     color: #333;
 }
+footer {
+            background-color: #f1f1f1; /* Màu nền */
+            padding: 20px;           /* Khoảng cách bên trong */
+            text-align: center;      /* Canh giữa nội dung */
+            font-size: 14px;         /* Kích thước chữ */
+            color: #333;             /* Màu chữ */
+        }
+        .footer-links {
+            margin: 10px 0;
+        }
+        .footer-links a {
+            text-decoration: none;  /* Bỏ gạch chân */
+            color: #007BFF;         /* Màu liên kết */
+            margin: 0 10px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline; /* Gạch chân khi rê chuột */
+        }
 .header {
     background-color: #4CAF50;
     color: white;
@@ -79,3 +97,29 @@ body {
     text-align: right;
     font-weight: bold;
 }
+ .vlog-post {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .vlog-post:hover {
+            transform: scale(1.02);
+        }
+        .vlog-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .vlog-meta {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .vlog-content img, .vlog-content video {
+            max-width: 100%;
+            border-radius: 8px;

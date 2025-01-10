@@ -45,7 +45,7 @@ Keypad phim2 = Keypad(makeKeymap(keyys), phim2r, phim2c, 4, 1);
 
 byte phim3r[4] = {33, 32, 35, 34};
 byte phim3c[1] = {36};
-Keypad phim3 = Keypad(makeKeymap(keyys), phim2r, phim2c, 4, 1);
+Keypad phim3 = Keypad(makeKeymap(keyys), phim3r, phim3c, 4, 1);
 
 byte phim4r[4] = {38, 37, 40, 39};
 byte phim4c[1] = {41};
@@ -60,17 +60,18 @@ int gia[5] = {0, 0, 0, 0, 0};
 void setup()
 {
   Serial.begin(9600);
+  u8g.firstPage();delay(500);
   // khoi dong can//
   can1.begin();
   can2.begin();
   can3.begin();
   can4.begin();
   can5.begin();
-  can1.setCalFactor(182);
-  can2.setCalFactor(180);
-  can3.setCalFactor(180);
-  can4.setCalFactor(180);
-  can5.setCalFactor(180);
+  can1.setCalFactor(95.7);
+  can2.setCalFactor(95.7);
+  can3.setCalFactor(95.7);
+  can4.setCalFactor(95.7);
+  can5.setCalFactor(95.7);
   can1.tare();
   can2.tare();
   can3.tare();
@@ -80,7 +81,7 @@ void setup()
   lcd.backlight();
 
   Serial.println("d");
-  lcd.print("dang cap nhap gia.."); //
+  lcd.print("updating costs..."); //
   delay(3000);
   lcd.clear();
   String so = "";
@@ -101,12 +102,13 @@ void setup()
     else
       so = so + String(st[i]);
   }
+  
 }
 
 void loop()
 {
 
-  bool ktkey1 = false, ktkey2 = false, ktkey3 = false, ktkey4, ktkey5, buoc1 = false, buoc2 = false;
+  bool ktkey1 = false, ktkey2 = false, ktkey3 = false, ktkey4=false, ktkey5=false, buoc1 = false, buoc2 = false;
   char hienthi1[12] = "", hienthi2[12] = "", hienthi3[12] = "", hienthi4[12] = "", hienthi5[12] = "";
   int kl1 = 0, kl2 = 0, kl3 = 0, kl4 = 0, kl5 = 0;
   int ktkl1, ktkl2, ktkl3, ktkl4, ktkl5;
@@ -229,14 +231,29 @@ void loop()
     do
     {
       char see1[20] = "", see2[20] = "", see3[20] = "", see4[20] = "", see5[20] = "";
+      char saw1[20] = "", saw2[20] = "", saw3[20] = "", saw4[20] = "", saw5[20] = "";
       char key1 = phim1.getKey(), key2 = phim2.getKey(), key3 = phim3.getKey(), key4 = phim4.getKey(), key5 = phim5.getKey();
       // hien thi can
-      sprintf(see1, "%d", kcan1);
-      sprintf(see2, "%d", kcan2);
-      sprintf(see3, "%d", kcan3);
-      sprintf(see4, "%d", kcan4);
-      sprintf(see5, "%d", kcan5);
-
+      float klht= kcan1;
+      klht=klht/1000;
+      if(klht<0) klht=0;
+      dtostrf(klht, 3, 2, see1);
+      klht= kcan2;
+      klht=klht/1000;
+      if(klht<0) klht=0;
+      dtostrf(klht, 3, 2, see2);
+      klht= kcan3;
+      klht=klht/1000;
+      if(klht<0) klht=0;
+      dtostrf(klht, 3, 2, see3);
+      klht= kcan4;
+      klht=klht/1000;
+      if(klht<0) klht=0;
+      dtostrf(klht, 3, 2, see4);
+      klht= kcan5;
+      klht=klht/1000;
+      if(klht<0) klht=0;
+      dtostrf(klht, 3, 2, see5);
       u8g.setFont(u8g_font_6x12);
 
       if (ktkey1 == false)
@@ -284,12 +301,18 @@ void loop()
           xh[5] = key5 - 48;
         }
       }
-      const char *unit = "g";
+      const char *unit = "k";const char *unit0 = "g";
       strcat(see1, unit);
       strcat(see2, unit);
       strcat(see3, unit);
       strcat(see4, unit);
       strcat(see5, unit);
+
+      strcat(see1, unit0);
+      strcat(see2, unit0);
+      strcat(see3, unit0);
+      strcat(see4, unit0);
+      strcat(see5, unit0);
       u8g.drawStr(0, 12, "Can1: ");
       u8g.drawStr(29, 12, hienthi1);
       u8g.drawStr(87, 12, see1);
@@ -305,7 +328,8 @@ void loop()
       u8g.drawStr(0, 60, "Can5: ");
       u8g.drawStr(29, 60, hienthi5);
       u8g.drawStr(87, 60, see5);
-    } while (u8g.nextPage());
+      //Serial.print(see1);Serial.print(see2);Serial.print(see3);Serial.print(see4);Serial.println(kcan5);
+    } while ( u8g.nextPage() );
     lcd.clear();
 
     if (buoc2 == false)
@@ -447,32 +471,33 @@ void loop()
           const char *unit1 = "g";
           float nguyen, du = tonghoadon[i][1];
           nguyen = du / 1000;
-          sprintf(tien1, "%d", ((gia[1] * tonghoadon[i][1]) / 1000));
+          sprintf(tien1, "%d", (int)((gia[1] * tonghoadon[i][1]) / 1000));
           dtostrf(nguyen, 3, 2, showdonkl1);
           strcat(showdonkl1, unit);
           strcat(showdonkl1, unit1);
-
+              //Serial.println(((gia[1] * tonghoadon[i][1]) / 1000));
           du = tonghoadon[i][2];
           nguyen = du / 1000;
-          sprintf(tien2, "%d", ((gia[2] * tonghoadon[i][2]) / 1000));
+          sprintf(tien2, "%d", (int)((gia[2] * tonghoadon[i][2]) / 1000));
           dtostrf(nguyen, 3, 2, showdonkl2);
           strcat(showdonkl2, unit);
           strcat(showdonkl2, unit1);
           du = tonghoadon[i][3];
           nguyen = du / 1000;
-          sprintf(tien3, "%d", ((gia[3] * tonghoadon[i][3]) / 1000));
+          sprintf(tien3, "%d", (int)((gia[3] * tonghoadon[i][3]) / 1000));
           dtostrf(nguyen, 3, 2, showdonkl3);
           strcat(showdonkl3, unit);
           strcat(showdonkl3, unit1);
           du = tonghoadon[i][4];
           nguyen = du / 1000;
-          sprintf(tien4, "%d", ((gia[4] * tonghoadon[i][4]) / 1000));
+          sprintf(tien4, "%d", (int)((gia[4] * tonghoadon[i][4]) / 1000));
           dtostrf(nguyen, 3, 2, showdonkl4);
           strcat(showdonkl4, unit);
           strcat(showdonkl4, unit1);
           char tongtien[20] = "";
-          sprintf(tongtien, "%d", ((gia[1] * tonghoadon[i][1]) / 1000) + ((gia[2] * tonghoadon[i][2]) / 1000) + ((gia[3] * tonghoadon[i][3]) / 1000) + ((gia[4] * tonghoadon[i][4]) / 1000));
+          sprintf(tongtien, "%d", (int)((gia[1] * tonghoadon[i][1]) / 1000) + ((gia[2] * tonghoadon[i][2]) / 1000) + ((gia[3] * tonghoadon[i][3]) / 1000) + ((gia[4] * tonghoadon[i][4]) / 1000));
           u8g.drawStr(0, 8, hoadon);
+
           u8g.drawStr(0, 19, "Carot    ");
           u8g.drawStr(51, 19, showdonkl1);
           u8g.drawStr(90, 19, tien1);
@@ -485,8 +510,12 @@ void loop()
           u8g.drawStr(0, 52, "Bapcai");
           u8g.drawStr(51, 52, showdonkl4);
           u8g.drawStr(90, 52, tien4);
-          u8g.drawStr(51, 63, "TONG: ");
-          u8g.drawStr(90, 63, tongtien);
+          u8g.drawStr(15, 63, "TONG: ");
+          const char *u1 = "v";
+          const char *u2 = "n";
+          const char *u3 = "d";
+          strcat(tongtien, u1);strcat(tongtien, u2);strcat(tongtien, u3);
+          u8g.drawStr(45, 63, tongtien);
 
         } while (u8g.nextPage());
         delay(5000);
@@ -495,7 +524,7 @@ void loop()
       ktkey1 = false;
       ktkey2 = false;
       ktkey3 = false;
-      ktkey4 = false;
+      ktkey4 = false;   
       ktkey5 = false;
       buoc1 = false;
       buoc2 = false;

@@ -1,11 +1,10 @@
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
 #include <ArduinoJson.h>
-HardwareSerial MySerial(1);
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "quannetcotrang"
-#define WIFI_PASSWORD "choNsole"
+#define WIFI_SSID "HienHoaHome"
+#define WIFI_PASSWORD "chucvuive123"
 
 /* 2. Define the API Key */
 #define API_KEY "AIzaSyCguAoNfRl4DCl7crkcvVR2qeiPUg1sXKg"
@@ -26,7 +25,6 @@ String st = "", rq = "";
 void setup()
 {
   Serial.begin(9600);
-  MySerial.begin(9600, SERIAL_8N1, 16, 17);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   Serial.println("Connecting to Wi-Fi");
